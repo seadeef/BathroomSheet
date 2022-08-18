@@ -16,6 +16,8 @@ def register_id(student_id):
 		t = Timer(ALERT_THRESHOLD*60, lambda: timer(student_id))
 		t.start()
 
+		return 'register'
+
 	else:
 		start_time = timestamps[student_id]
 		end_time = datetime.now()
@@ -32,3 +34,8 @@ def register_id(student_id):
 				writer.writerow(["Student ID", "Leave Time", "Return Time", "Duration (minutes)"])
 
 			writer.writerow([student_id, start_time.strftime("%m/%d/%Y %H:%M:%S"), end_time.strftime("%m/%d/%Y %H:%M:%S"), duration_in_m])
+
+		return 'unregister'
+	
+	return 'failure'
+	

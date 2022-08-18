@@ -1,0 +1,2 @@
+Student ID,Leave Time,Return Time,Duration (minutes)
+555914,08/17/2022 17:22:10,08/17/2022 17:22:16,0.09
