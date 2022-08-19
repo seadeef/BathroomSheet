@@ -35,7 +35,4 @@ def register_id(student_id):
 
 			writer.writerow([student_id, start_time.strftime("%m/%d/%Y %H:%M:%S"), end_time.strftime("%m/%d/%Y %H:%M:%S"), duration_in_m])
 
-		return 'unregister'
-	
-	return 'failure'
-	
+		return 'unregister'	

@@ -16,7 +16,7 @@
 
 	{% if status == 'password-failure' %}
 		<div class="alert alert-danger text-center" role="alert">
-			<strong>Wrong Password!</strong> Mr. Turner, try again, or contact Kevin or Gautam if you forgot the password.
+			<strong>Wrong Password!</strong> {{ teacher_name }}, try again, or contact Kevin or Gautam if you forgot the password.
 		</div>
 	{% endif %}
 
@@ -25,7 +25,7 @@
             <div class="text-center">
                 <img class="d-block mx-auto mb-4" src="static/bathroom.png" alt="Icon of a toilet" width="72" height="72">
                 <h2 class="text-center">Access Admin Portal</h2>
-                <p class="lead text-center">If you are Mr. Turner, type in the password in the field below. If you are not him, <a href="/">click here.</a> If you forgot the password, contact Kevin or Gautam</p>
+                <p class="lead text-center">If you are {{ teacher_name }}, type in the password in the field below. If you are not him, <a href="/">click here.</a> If you forgot the password, contact Kevin or Gautam</p>
             </div>
 
 

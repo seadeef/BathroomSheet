@@ -1,3 +1,4 @@
+import os
 from bathroom_list import register_id
 from flask import Flask, render_template, request, redirect, flash, get_flashed_messages
 from uuid import uuid4
@@ -13,7 +14,7 @@ def index():
     if len(status) == 0:
         status = ['none']
 
-    return render_template('index.html', status=status[0], alert_threshold=ALERT_THRESHOLD)
+    return render_template('index.html', status=status[0], alert_threshold=ALERT_THRESHOLD, teacher_name=TEACHER_NAME)
 
 @app.route('/admin')
 def admin():
@@ -39,13 +40,12 @@ def admin():
 
 @app.route('/admin-auth')
 def admin_auth():
-
     status = get_flashed_messages()
 
     if len(status) == 0:
         status = ['none']
 
-    return render_template('admin-auth.html', status=status[0])
+    return render_template('admin-auth.html', status=status[0], teacher_name=TEACHER_NAME)
 
 @app.route('/api/update-settings', methods=['POST'])
 def update_settings():
@@ -53,7 +53,7 @@ def update_settings():
         "RECV_EMAIL": request.form.get("RECV_EMAIL"),
         "SEND_EMAIL": request.form.get("SEND_EMAIL"),
         "ALERT_THRESHOLD": int(request.form.get("ALERT_THRESHOLD")),
-        "EMAIL_PASSWD": int(request.form.get("EMAIL_PASSWD")),
+        "EMAIL_PASSWD": request.form.get("EMAIL_PASSWD"),
         "TEACHER_NAME": request.form.get("TEACHER_NAME"),
         "LOG_PATH": request.form.get("LOG_PATH")
     })
