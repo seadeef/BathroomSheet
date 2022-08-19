@@ -9,12 +9,13 @@ load_dotenv(dotenv_path)
 RECV_EMAIL = os.environ.get("RECV_EMAIL")
 SEND_EMAIL = os.environ.get("SEND_EMAIL")
 EMAIL_PASSWD = os.environ.get("EMAIL_PASSWD")
+ADMIN_PASSWD = os.environ.get("ADMIN_PASSWD")
 ALERT_THRESHOLD = int(os.environ.get("ALERT_THRESHOLD"))
 LOG_PATH = os.environ.get("LOG_PATH")
 TEACHER_NAME = os.environ.get("TEACHER_NAME")
 
 def update(new):
-	global RECV_EMAIL, SEND_EMAIL, EMAIL_PASSWD, ALERT_THRESHOLD, LOG_PATH, TEACHER_NAME
+	global RECV_EMAIL, SEND_EMAIL, EMAIL_PASSWD, ALERT_THRESHOLD, LOG_PATH, TEACHER_NAME, ADMIN_PASSWD
 
 	try:
 		with open(dotenv_path, 'w') as file:
@@ -22,6 +23,7 @@ def update(new):
 RECV_EMAIL="{new["RECV_EMAIL"]}"
 SEND_EMAIL="{new["SEND_EMAIL"]}"
 EMAIL_PASSWD="{new["EMAIL_PASSWD"]}"
+ADMIN_PASSWD="{new["ADMIN_PASSWD"]}"
 TEACHER_NAME="{new["TEACHER_NAME"]}"
 ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
 LOG_PATH="{new["LOG_PATH"]}"
@@ -41,5 +43,6 @@ FLASK_DEBUG=1
 	ALERT_THRESHOLD = int(new["ALERT_THRESHOLD"])
 	LOG_PATH = new["LOG_PATH"]
 	TEACHER_NAME = new["TEACHER_NAME"]
+	ADMIN_PASSWD = new["ADMIN_PASSWD"]
 
 	return 'success'

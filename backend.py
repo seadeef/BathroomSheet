@@ -2,7 +2,7 @@ import os
 from bathroom_list import register_id
 from flask import Flask, render_template, request, redirect, flash, get_flashed_messages
 from uuid import uuid4
-from settings import ALERT_THRESHOLD, EMAIL_PASSWD, SEND_EMAIL, RECV_EMAIL, TEACHER_NAME, LOG_PATH, update
+from settings import ADMIN_PASSWD, ALERT_THRESHOLD, EMAIL_PASSWD, SEND_EMAIL, RECV_EMAIL, TEACHER_NAME, LOG_PATH, update
 
 app = Flask(__name__)
 app.secret_key = uuid4().hex
@@ -33,7 +33,8 @@ def admin():
         {"name": "SEND_EMAIL", "value": SEND_EMAIL},
         {"name": "RECV_EMAIL", "value": RECV_EMAIL},
         {"name": "TEACHER_NAME", "value": TEACHER_NAME},
-        {"name": "LOG_PATH", "value": LOG_PATH}
+        {"name": "LOG_PATH", "value": LOG_PATH},
+        {"name": "ADMIN_PASSWD", "value": ADMIN_PASSWD}
     ]
 
     return render_template('admin.html', data=all_data)
@@ -55,7 +56,8 @@ def update_settings():
         "ALERT_THRESHOLD": int(request.form.get("ALERT_THRESHOLD")),
         "EMAIL_PASSWD": request.form.get("EMAIL_PASSWD"),
         "TEACHER_NAME": request.form.get("TEACHER_NAME"),
-        "LOG_PATH": request.form.get("LOG_PATH")
+        "LOG_PATH": request.form.get("LOG_PATH"),
+        "ADMIN_PASSWD": request.form.get("ADMIN_PASSWD")
     })
 
     flash(f'update-settings-{status}')
@@ -63,7 +65,7 @@ def update_settings():
 
 @app.route('/api/admin-auth', methods=['POST'])
 def check_password():
-    if request.form.get('password') == EMAIL_PASSWD:
+    if request.form.get('password') == ADMIN_PASSWD:
         flash('is-auth=true')
         return redirect('/admin')
     else:
