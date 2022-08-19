@@ -55,9 +55,9 @@ def update_settings():
         "SEND_EMAIL": request.form.get("SEND_EMAIL"),
         "ALERT_THRESHOLD": int(request.form.get("ALERT_THRESHOLD")),
         "EMAIL_PASSWD": request.form.get("EMAIL_PASSWD"),
+        "ADMIN_PASSWD": request.form.get("ADMIN_PASSWD"),
         "TEACHER_NAME": request.form.get("TEACHER_NAME"),
         "LOG_PATH": request.form.get("LOG_PATH"),
-        "ADMIN_PASSWD": request.form.get("ADMIN_PASSWD")
     })
 
     flash(f'update-settings-{status}')

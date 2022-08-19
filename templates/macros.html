@@ -1,0 +1,7 @@
+{% macro bottomText(state) %}
+<p class="text-center fixed-bottom">
+    <small class="text-muted bg-light p-2 border">
+    <a href="https://github.com/seadeef/BathroomSheet">GitHub</a> | Made by Kevin Toren and Gautam Khajuria | <a href="{{ '/' if state == 2 else '/admin-auth' }}">{{ 'Admin' if state == 1 else 'Go Back' }}</a>
+    </small>
+</p>
+{% endmacro %}

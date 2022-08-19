@@ -1,3 +1,4 @@
+{% import "macros.html" as macros %}
 <!doctype html>
 <html lang="en">
     <head>
@@ -61,8 +62,6 @@
             </div>
         </div>
 
-		<p class="text-muted text-center fixed-bottom"><small>
-			<a href="https://github.com/seadeef/BathroomSheet">GitHub</a> | Made by Kevin Toren and Gautam Khajuria | <a href="/admin-auth">Admin</a>
-		</small></p>
+		{{ macros.bottomText(state=1) }}
     </body>
 </html>
