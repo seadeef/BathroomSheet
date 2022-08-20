@@ -21,5 +21,5 @@ def send_alert(student_id, num_students):
 		teacher = ALL["TEACHER_NAME"]
 		alert = ALL["ALERT_THRESHOLD"]
 		message = f"{teacher}'s Bathroom Pass System:\nSubject: Student {student_id} Has Been Gone for At Least {alert} {words[0]}!\nThere {words[1]} currently {num_students} {words[2]} on a bathroom break. Please take action to ensure the attendance of any missing students."
-		server.login(ALL["SEND_EMAIL"], ["EMAIL_PASSWD"])
+		server.login(ALL["SEND_EMAIL"], ALL["EMAIL_PASSWD"])
 		server.sendmail(ALL["SEND_EMAIL"], ALL["RECV_EMAIL"], message)
