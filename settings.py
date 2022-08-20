@@ -1,6 +1,7 @@
 from os import environ
 from os.path import join, dirname, exists
 from dotenv import load_dotenv
+from html import escape, unescape
 
 dotenv_path = join(dirname(__file__), '.env')
 
@@ -8,13 +9,13 @@ def create_settings():
 	load_dotenv(dotenv_path)
 
 	return {
-		"RECV_EMAIL": environ.get("RECV_EMAIL"),
-		"SEND_EMAIL": environ.get("SEND_EMAIL"),
-		"EMAIL_PASSWD": environ.get("EMAIL_PASSWD"),
-		"ADMIN_PASSWD": environ.get("ADMIN_PASSWD"),
-		"TEACHER_NAME": environ.get("TEACHER_NAME"),
+		"RECV_EMAIL": unescape(environ.get("RECV_EMAIL")),
+		"SEND_EMAIL": unescape(environ.get("SEND_EMAIL")),
+		"EMAIL_PASSWD": unescape(environ.get("EMAIL_PASSWD")),
+		"ADMIN_PASSWD": unescape(environ.get("ADMIN_PASSWD")),
+		"TEACHER_NAME": unescape(environ.get("TEACHER_NAME")),
 		"ALERT_THRESHOLD": int(environ.get("ALERT_THRESHOLD")),
-		"LOG_PATH": environ.get("LOG_PATH")
+		"LOG_PATH": unescape(environ.get("LOG_PATH"))
 	}
 
 if exists(join(dirname(__file__), '.env')):
@@ -44,13 +45,13 @@ def update(new):
 	try:
 		with open(dotenv_path, 'w') as file:
 			TEMPLATE = f'''
-RECV_EMAIL="{new["RECV_EMAIL"]}"
-SEND_EMAIL="{new["SEND_EMAIL"]}"
-EMAIL_PASSWD="{new["EMAIL_PASSWD"]}"
-ADMIN_PASSWD="{new["ADMIN_PASSWD"]}"
-TEACHER_NAME="{new["TEACHER_NAME"]}"
+RECV_EMAIL="{escape(new["RECV_EMAIL"], quote=True)}"
+SEND_EMAIL="{escape(new["SEND_EMAIL"], quote=True)}"
+EMAIL_PASSWD="{escape(new["EMAIL_PASSWD"], quote=True)}"
+ADMIN_PASSWD="{escape(new["ADMIN_PASSWD"], quote=True)}"
+TEACHER_NAME="{escape(new["TEACHER_NAME"], quote=True)}"
 ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
-LOG_PATH="{new["LOG_PATH"]}"
+LOG_PATH="{escape(new["LOG_PATH"], quote=True)}"
 FLASK_APP="backend.py"
 FLASK_DEBUG=1
 			'''
@@ -58,7 +59,8 @@ FLASK_DEBUG=1
 			file.write(TEMPLATE)
 			
 			## The above code just rewrites the .env file, for next time
-	except: 
+	except Exception as e: 
+		print(e)
 		return "failure"	
 
 	# Update each value in the dictionary 
