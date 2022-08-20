@@ -20,15 +20,15 @@ def update(new):
 	try:
 		with open(dotenv_path, 'w') as file:
 			TEMPLATE = f'''
-				RECV_EMAIL="{new["RECV_EMAIL"]}"
-				SEND_EMAIL="{new["SEND_EMAIL"]}"
-				EMAIL_PASSWD="{new["EMAIL_PASSWD"]}"
-				ADMIN_PASSWD="{new["ADMIN_PASSWD"]}"
-				TEACHER_NAME="{new["TEACHER_NAME"]}"
-				ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
-				LOG_PATH="{new["LOG_PATH"]}"
-				FLASK_APP="backend.py"
-				FLASK_DEBUG=1
+RECV_EMAIL="{new["RECV_EMAIL"]}"
+SEND_EMAIL="{new["SEND_EMAIL"]}"
+EMAIL_PASSWD="{new["EMAIL_PASSWD"]}"
+ADMIN_PASSWD="{new["ADMIN_PASSWD"]}"
+TEACHER_NAME="{new["TEACHER_NAME"]}"
+ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
+LOG_PATH="{new["LOG_PATH"]}"
+FLASK_APP="backend.py"
+FLASK_DEBUG=1
 			'''
 
 			file.write(TEMPLATE)
