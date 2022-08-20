@@ -1,5 +1,5 @@
 import smtplib, ssl
-from settings import RECV_EMAIL, SEND_EMAIL, EMAIL_PASSWD, ALERT_THRESHOLD, TEACHER_NAME
+from settings import ALL
 
 port = 465  # For SSL
 
@@ -8,7 +8,7 @@ context = ssl.create_default_context()
 
 def send_alert(student_id, num_students):
 	with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-		if ALERT_THRESHOLD == 1:
+		if ALL["ALERT_THRESHOLD"] == 1:
 			words = ["Minute"]
 		else:
 			words = ["Minutes"]
@@ -18,7 +18,8 @@ def send_alert(student_id, num_students):
 		else:
 			words.extend(["are", "students"])
 
-		message = f"{TEACHER_NAME}'s Bathroom Pass System:\nSubject: Student {student_id} Has Been Gone for At Least {ALERT_THRESHOLD} {words[0]}!\nThere {words[1]} currently {num_students} {words[2]} on a bathroom break. Please take action to ensure the attendance of any missing students."
-		server.login(SEND_EMAIL, EMAIL_PASSWD)
-		server.sendmail(SEND_EMAIL, RECV_EMAIL, message)
-
+		teacher = ALL["TEACHER_NAME"]
+		alert = ALL["ALERT_THRESHOLD"]
+		message = f"{teacher}'s Bathroom Pass System:\nSubject: Student {student_id} Has Been Gone for At Least {alert} {words[0]}!\nThere {words[1]} currently {num_students} {words[2]} on a bathroom break. Please take action to ensure the attendance of any missing students."
+		server.login(ALL["SEND_EMAIL"], ["EMAIL_PASSWD"])
+		server.sendmail(ALL["SEND_EMAIL"], ALL["RECV_EMAIL"], message)

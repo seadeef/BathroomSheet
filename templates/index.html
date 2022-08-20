@@ -29,7 +29,7 @@
 		</div>
 	{% elif status == 'update-settings-success' %}
 		<div class="alert alert-success text-center" role="alert">
-			<strong>Success!</strong> Settings updated. Restart the server to see these changes take effect.
+			<strong>Success!</strong> Settings updated.
 		</div>
 	{% elif status == 'update-settings-failure' %}
 		<div class="alert alert-danger text-center" role="alert">
@@ -62,6 +62,6 @@
             </div>
         </div>
 
-		{{ macros.bottomText(state=1) }}
+		{{ macros.bottom_text(state=1) }}
     </body>
 </html>

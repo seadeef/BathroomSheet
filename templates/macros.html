@@ -1,7 +1,7 @@
-{% macro bottomText(state) %}
+{% macro bottom_text(state) %}
 <p class="text-center fixed-bottom">
     <small class="text-muted bg-light p-2 border">
-    <a href="https://github.com/seadeef/BathroomSheet">GitHub</a> | Made by Kevin Toren and Gautam Khajuria | <a href="{{ '/' if state == 2 else '/admin-auth' }}">{{ 'Admin' if state == 1 else 'Go Back' }}</a>
+    <a href="https://github.com/seadeef/BathroomSheet" target="_blank">GitHub</a> | Made by Kevin Toren and Gautam Khajuria | <a href="{{ '/' if state > 1 else '/admin-auth' }}">{{ 'Admin' if state == 1 else ( 'Go Back' if state == 2 else 'Cancel' ) }}</a>
     </small>
 </p>
 {% endmacro %}
