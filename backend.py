@@ -1,14 +1,17 @@
 import os
 from bathroom_list import register_id
-from flask import Flask, render_template, request, redirect, flash, get_flashed_messages
+from flask import Flask, render_template, request, redirect, flash, get_flashed_messages, session, config
 from uuid import uuid4
 from settings import ALL, update
 
 app = Flask(__name__)
-app.secret_key = uuid4().hex
+app.config["SECRET_KEY"] = uuid4().hex
+app.config["PERMANENT_SESSION_LIFETIME"] = 3600 #log admin user out after an hour if everything else fails
 
 @app.route('/', methods=['GET'])
 def index():
+    session["auth"] = False #once admin user returns to the index page, log them out
+
     status = get_flashed_messages()
 
     if len(status) == 0: # If there are not any updates, then tell Jinja to not render any message
@@ -18,13 +21,8 @@ def index():
     return render_template('index.html', status=status[0], alert_threshold=ALL["ALERT_THRESHOLD"], teacher_name=ALL["TEACHER_NAME"])
 
 @app.route('/admin')
-def admin():
-    status = get_flashed_messages()
-
-    if len(status) == 0: # If this page is just being accessed directly, reroute to the auth page
-        return redirect("/admin-auth")
-
-    if status[0] != "is-auth=true": # If the flash is wrong
+def admin():    
+    if "auth" not in session or not session["auth"]: # If this page is just being accessed directly, reroute to the auth page
         return redirect("/admin-auth")
 
     all_data = map(lambda x: {"name": x, "value": ALL[x]}, ALL) # Map data into parseable format
@@ -42,6 +40,9 @@ def admin_auth():
 
 @app.route('/api/update-settings', methods=['POST'])
 def update_settings():
+    if "auth" not in session or not session["auth"]:
+        return redirect("/admin-auth")
+
 	# Update the settings 
     status = update({
         "RECV_EMAIL": request.form.get("RECV_EMAIL"),
@@ -62,7 +63,7 @@ def update_settings():
 def check_password():
 	# If the passord is correct, send the "correct" message
     if request.form.get('password') == ALL["ADMIN_PASSWD"]:
-        flash('is-auth=true')
+        session["auth"] = True
         return redirect('/admin')
     else: # Send the fail message
         flash('password-failure')
