@@ -25,9 +25,7 @@ def admin():
     if "auth" not in session or not session["auth"]: # If this page is just being accessed directly, reroute to the auth page
         return redirect("/admin-auth")
 
-    all_data = map(lambda x: {"name": x, "value": ALL[x]}, ALL) # Map data into parseable format
-
-    return render_template('admin.html', data=all_data, type=type)
+    return render_template('admin.html', data=ALL)
 
 @app.route('/admin-auth')
 def admin_auth():

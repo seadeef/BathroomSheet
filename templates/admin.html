@@ -17,13 +17,16 @@
 
 	<body class="bg-light p-4 vh-100">
 		<form action="/api/update-settings" method="POST" class="container">
-		{% for element in data %}
+		{% for (key, value) in data.items() %}
 			<hr>
-				<h3 class="d-inline">{{ element.name }}:</h3>
-				<input type="{{ 'number' if element.name=="ALERT_THRESHOLD" else 'input' }}" class="d-inline" name="{{ element.name }}" value="{{ element.value }}" >
+				<h3 class="d-inline">{{ key }}:</h3>
+				<input type="input" class="d-inline" name="{{ key }}" value="{{ value }}">
+				{% if key=="LOG_PATH" %}
+					&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{data.LOG_PATH}}">Download log file</a>
+				{% endif %}
 			<hr>
 		{% endfor %}
-			<button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+			<button class="btn btn-primary btn-lg btn-block" type="submit">Change Settings</button>
 		</form>
 
 		{{ macros.bottom_text(state=3) }}

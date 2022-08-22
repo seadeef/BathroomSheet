@@ -47,13 +47,13 @@ def update(new):
 		with open(dotenv_path, 'w') as file:
 			escaped = escape(new["ALERT_THRESHOLD"] if new["ALERT_THRESHOLD"] else str(ALL["ALERT_THRESHOLD"]), quote=True) # fuck python this piece of shit language cant do basic parsing
 			TEMPLATE = f'''
-RECV_EMAIL="{escape(new["RECV_EMAIL"], quote=True)}"
-SEND_EMAIL="{escape(new["SEND_EMAIL"], quote=True)}"
-EMAIL_PASSWD="{escape(new["EMAIL_PASSWD"], quote=True)}"
-ADMIN_PASSWD="{escape(new["ADMIN_PASSWD"], quote=True)}"
-TEACHER_NAME="{escape(new["TEACHER_NAME"], quote=True)}"
+RECV_EMAIL="{escape(new["RECV_EMAIL"] if new["RECV_EMAIL"] else ALL["RECV_EMAIL"], quote=True)}"
+SEND_EMAIL="{escape(new["SEND_EMAIL"] if new["SEND_EMAIL"] else ALL["SEND_EMAIL"], quote=True)}"
+EMAIL_PASSWD="{escape(new["EMAIL_PASSWD"] if new["EMAIL_PASSWD"] else ALL["EMAIL_PASSWD"], quote=True)}"
+ADMIN_PASSWD="{escape(new["ADMIN_PASSWD"] if new["ADMIN_PASSWD"] else ALL["ADMIN_PASSWD"], quote=True)}"
+TEACHER_NAME="{escape(new["TEACHER_NAME"] if new["TEACHER_NAME"] else ALL["TEACHER_NAME"], quote=True)}"
 ALERT_THRESHOLD={escaped} # minutes
-LOG_PATH="{escape(new["LOG_PATH"], quote=True)}"
+LOG_PATH="{escape(new["LOG_PATH"] if new["LOG_PATH"] else ALL["LOG_PATH"], quote=True)}"
 FLASK_APP="backend.py"
 FLASK_DEBUG=1
 			'''
