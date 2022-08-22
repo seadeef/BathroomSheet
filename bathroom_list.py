@@ -29,10 +29,13 @@ def register_id(student_id):
 		
 		with open(ALL["LOG_PATH"], "a") as file:
 			writer = csv.writer(file)
-
-			if os.stat(ALL["LOG_PATH"]).st_size == 0:
-				writer.writerow(["Student ID", "Leave Time", "Return Time", "Duration (minutes)"])
-
 			writer.writerow([student_id, start_time.strftime("%m/%d/%Y %H:%M:%S"), end_time.strftime("%m/%d/%Y %H:%M:%S"), duration_in_m])
 
 		return 'unregister'	
+
+def create_logs():
+	if not os.path.isfile(ALL["LOG_PATH"]):
+		with open(ALL["LOG_PATH"], 'w') as file:
+			writer = csv.writer(file)
+			writer.writerow(["Student ID", "Leave Time", "Return Time", "Duration (minutes)"])
+

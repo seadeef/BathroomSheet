@@ -1,12 +1,14 @@
 import os
-from bathroom_list import register_id
-from flask import Flask, render_template, request, redirect, flash, get_flashed_messages, session, config
+from bathroom_list import register_id, create_logs
+from flask import Flask, render_template, request, redirect, flash, get_flashed_messages, session, config, send_file
 from uuid import uuid4
 from settings import ALL, update
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = uuid4().hex
 app.config["PERMANENT_SESSION_LIFETIME"] = 3600 #log admin user out after an hour if everything else fails
+
+create_logs()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -25,9 +27,7 @@ def admin():
     if "auth" not in session or not session["auth"]: # If this page is just being accessed directly, reroute to the auth page
         return redirect("/admin-auth")
 
-    all_data = map(lambda x: {"name": x, "value": ALL[x]}, ALL) # Map data into parseable format
-
-    return render_template('admin.html', data=all_data)
+    return render_template('admin.html', data=ALL)
 
 @app.route('/admin-auth')
 def admin_auth():
@@ -74,6 +74,14 @@ def student_ids():
     status = register_id(request.form.get('student_ID')) # Register a student to the bathroom, and say that
     flash(status)
     return redirect("/")
+
+@app.route('/<path:filename>', methods=['GET'])
+def download(filename):
+    if "auth" not in session or not session["auth"]:
+        return redirect("/admin-auth")
+
+    if filename == ALL["LOG_PATH"]:
+        return send_file(filename, as_attachment=True)
 
 
 if __name__ == "__main__":
