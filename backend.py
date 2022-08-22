@@ -1,6 +1,6 @@
 import os
 from bathroom_list import register_id
-from flask import Flask, render_template, request, redirect, flash, get_flashed_messages, session, config
+from flask import Flask, render_template, request, redirect, flash, get_flashed_messages, session, send_file
 from uuid import uuid4
 from settings import ALL, update
 
@@ -36,6 +36,8 @@ def admin_auth():
 
     return render_template('admin-auth.html', status=status[0], teacher_name=ALL["TEACHER_NAME"])
 
+## API Routes ##
+
 @app.route('/api/update-settings', methods=['POST'])
 def update_settings():
     if "auth" not in session or not session["auth"]:
@@ -55,7 +57,13 @@ def update_settings():
     flash(f'update-settings-{status}')
     return redirect('/')
 
-## API Routes ##
+
+@app.route("/api/log.txt", methods=["GET"])
+def log():
+    if "auth" not in session or not session["auth"]:
+        return redirect("/admin-auth")
+
+    return send_file(ALL["LOG_PATH"], as_attachment=True)
 
 @app.route('/api/admin-auth', methods=['POST'])
 def check_password():
