@@ -42,15 +42,17 @@ FLASK_DEBUG=1
 
 def update(new):
 	# Make sure no errors seep through, just report them
+
 	try:
 		with open(dotenv_path, 'w') as file:
+			escaped = escape(new["ALERT_THRESHOLD"] if new["ALERT_THRESHOLD"] else str(ALL["ALERT_THRESHOLD"]), quote=True) # fuck python this piece of shit language cant do basic parsing
 			TEMPLATE = f'''
 RECV_EMAIL="{escape(new["RECV_EMAIL"], quote=True)}"
 SEND_EMAIL="{escape(new["SEND_EMAIL"], quote=True)}"
 EMAIL_PASSWD="{escape(new["EMAIL_PASSWD"], quote=True)}"
 ADMIN_PASSWD="{escape(new["ADMIN_PASSWD"], quote=True)}"
 TEACHER_NAME="{escape(new["TEACHER_NAME"], quote=True)}"
-ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
+ALERT_THRESHOLD={escaped} # minutes
 LOG_PATH="{escape(new["LOG_PATH"], quote=True)}"
 FLASK_APP="backend.py"
 FLASK_DEBUG=1
@@ -69,7 +71,7 @@ FLASK_DEBUG=1
 	ALL["EMAIL_PASSWD"] = new["EMAIL_PASSWD"]
 	ALL["ADMIN_PASSWD"] = new["ADMIN_PASSWD"]
 	ALL["TEACHER_NAME"] = new["TEACHER_NAME"]
-	ALL["ALERT_THRESHOLD"] = new["ALERT_THRESHOLD"]
+	ALL["ALERT_THRESHOLD"] = str(new["ALERT_THRESHOLD"]) if new["ALERT_THRESHOLD"] else str(ALL["ALERT_THRESHOLD"])
 	ALL["LOG_PATH"] = new["LOG_PATH"]
 
 	return 'success'

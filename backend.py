@@ -27,7 +27,7 @@ def admin():
 
     all_data = map(lambda x: {"name": x, "value": ALL[x]}, ALL) # Map data into parseable format
 
-    return render_template('admin.html', data=all_data)
+    return render_template('admin.html', data=all_data, type=type)
 
 @app.route('/admin-auth')
 def admin_auth():
@@ -41,13 +41,13 @@ def admin_auth():
 @app.route('/api/update-settings', methods=['POST'])
 def update_settings():
     if "auth" not in session or not session["auth"]:
-        return redirect("/admin-auth")
+        return redirect("/admin-auth") 
 
 	# Update the settings 
     status = update({
         "RECV_EMAIL": request.form.get("RECV_EMAIL"),
         "SEND_EMAIL": request.form.get("SEND_EMAIL"),
-        "ALERT_THRESHOLD": int(request.form.get("ALERT_THRESHOLD")),
+        "ALERT_THRESHOLD": request.form.get("ALERT_THRESHOLD"),
         "EMAIL_PASSWD": request.form.get("EMAIL_PASSWD"),
         "ADMIN_PASSWD": request.form.get("ADMIN_PASSWD"),
         "TEACHER_NAME": request.form.get("TEACHER_NAME"),
