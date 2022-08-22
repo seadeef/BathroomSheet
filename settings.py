@@ -43,15 +43,23 @@ FLASK_DEBUG=1
 def update(new):
 	# Make sure no errors seep through, just report them
 	try:
+		new_recv_email = new["RECV_EMAIL"] if new["RECV_EMAIL"] else ALL["RECV_EMAIL"]
+		new_send_email = new["SEND_EMAIL"] if new["SEND_EMAIL"] else ALL["SEND_EMAIL"]
+		new_email_passwd = new["EMAIL_PASSWD"] if new["EMAIL_PASSWD"] else ALL["EMAIL_PASSWD"]
+		new_admin_passwd = new["ADMIN_PASSWD"] if new["ADMIN_PASSWD"] else ALL["ADMIN_PASSWD"]
+		new_teacher_name = new["TEACHER_NAME"] if new["TEACHER_NAME"] else ALL["TEACHER_NAME"]
+		new_alert_threshold = int(new["ALERT_THRESHOLD"] if new["ALERT_THRESHOLD"] else ALL["ALERT_THRESHOLD"])
+		new_log_path = new["LOG_PATH"] if new["LOG_PATH"] else ALL["LOG_PATH"]
+
 		with open(dotenv_path, 'w') as file:
 			TEMPLATE = f'''
-RECV_EMAIL="{escape(new["RECV_EMAIL"], quote=True)}"
-SEND_EMAIL="{escape(new["SEND_EMAIL"], quote=True)}"
-EMAIL_PASSWD="{escape(new["EMAIL_PASSWD"], quote=True)}"
-ADMIN_PASSWD="{escape(new["ADMIN_PASSWD"], quote=True)}"
-TEACHER_NAME="{escape(new["TEACHER_NAME"], quote=True)}"
-ALERT_THRESHOLD={new["ALERT_THRESHOLD"]} # minutes
-LOG_PATH="{escape(new["LOG_PATH"], quote=True)}"
+RECV_EMAIL="{escape(new_recv_email, quote=True)}"
+SEND_EMAIL="{escape(new_send_email, quote=True)}"
+EMAIL_PASSWD="{escape(new_email_passwd, quote=True)}"
+ADMIN_PASSWD="{escape(new_admin_passwd, quote=True)}"
+TEACHER_NAME="{escape(new_teacher_name, quote=True)}"
+ALERT_THRESHOLD={new_alert_threshold} # minutes
+LOG_PATH="{escape(new_log_path, quote=True)}
 FLASK_APP="backend.py"
 FLASK_DEBUG=1
 			'''
@@ -64,12 +72,12 @@ FLASK_DEBUG=1
 		return "failure"	
 
 	# Update each value in the dictionary 
-	ALL["RECV_EMAIL"] = new["RECV_EMAIL"]
-	ALL["SEND_EMAIL"] = new["SEND_EMAIL"]
-	ALL["EMAIL_PASSWD"] = new["EMAIL_PASSWD"]
-	ALL["ADMIN_PASSWD"] = new["ADMIN_PASSWD"]
-	ALL["TEACHER_NAME"] = new["TEACHER_NAME"]
-	ALL["ALERT_THRESHOLD"] = new["ALERT_THRESHOLD"]
-	ALL["LOG_PATH"] = new["LOG_PATH"]
+	ALL["RECV_EMAIL"] = new_recv_email
+	ALL["SEND_EMAIL"] = new_send_email
+	ALL["EMAIL_PASSWD"] = new_email_passwd
+	ALL["ADMIN_PASSWD"] = new_admin_passwd
+	ALL["TEACHER_NAME"] = new_teacher_name
+	ALL["ALERT_THRESHOLD"] = new_alert_threshold
+	ALL["LOG_PATH"] = new_log_path
 
 	return 'success'

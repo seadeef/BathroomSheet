@@ -20,7 +20,7 @@
 		{% for (key, value) in data.items() %}
 			<hr>
 				<h3 class="d-inline">{{ key }}:</h3>
-				<input type="input" class="d-inline" name="{{ key }}" value="{{ value }}">
+				<input type="{{ 'number' if key=="ALERT_THRESHOLD" else 'input' }}" class="d-inline" name="{{ key }}" value="{{ value }}">
 				{% if key=="LOG_PATH" %}
 					&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{data.LOG_PATH}}">Download log file</a>
 				{% endif %}
